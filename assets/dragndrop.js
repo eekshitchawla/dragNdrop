@@ -1,3 +1,4 @@
+
 //selecting all required elements
 const dropArea = document.querySelector(".drag-area"),
 dragText = dropArea.querySelector("header"),
@@ -40,6 +41,20 @@ dropArea.addEventListener("drop", (event)=>{
 
 function showFile(){
   let fileType = file.type; //getting selected file type
+  let data = [
+    {
+      "description": "hello",
+      "name": "re"
+    },
+    {
+      "description": "hello",
+      "name": "re"
+    },
+    {
+      "description": "hello",
+      "name": "re"
+    },
+  ]
   console.log(fileType)
   let validExtensions = ["text/csv", "application/vnd.ms-excel"]; //adding some valid image extensions in array
   if(validExtensions.includes(fileType)){ //if user selected file is an image file
@@ -47,7 +62,11 @@ function showFile(){
     fileReader.onload = ()=>{
       let fileURL = fileReader.result; //passing user file source in fileURL variable
       let imgTag = `<img src="${fileURL}" alt="">`; //creating an img tag and passing user selected file source inside src attribute
-      dropArea.innerHTML = imgTag; //adding that created img tag inside dropArea container
+      let temp = data.map((i) => (
+        `<li>${i.description}</li>
+        <li>${i.name}</li>`
+      ))
+      dropArea.innerHTML = temp; //adding that created img tag inside dropArea container
     }
     fileReader.readAsDataURL(file);
     console.log(file);
