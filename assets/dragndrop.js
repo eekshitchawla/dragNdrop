@@ -40,7 +40,8 @@ dropArea.addEventListener("drop", (event)=>{
 
 function showFile(){
   let fileType = file.type; //getting selected file type
-  let validExtensions = ["text/csv"]; //adding some valid image extensions in array
+  console.log(fileType)
+  let validExtensions = ["text/csv", "application/vnd.ms-excel"]; //adding some valid image extensions in array
   if(validExtensions.includes(fileType)){ //if user selected file is an image file
     let fileReader = new FileReader(); //creating new FileReader object
     fileReader.onload = ()=>{
@@ -51,7 +52,7 @@ function showFile(){
     fileReader.readAsDataURL(file);
     console.log(file);
   }else{
-    alert("This is not an Image File!");
+    alert("This is not valid file type!");
     dropArea.classList.remove("active");
     dragText.textContent = "Drag & Drop to Upload File";
   }
