@@ -34,8 +34,25 @@
       <button>Browse File</button>
       <input type="file" hidden />
     </div>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZHfqVtBSdPhHhmt1fYSznnVcEDSuuZN0",
+        authDomain: "cognida-3a5de.firebaseapp.com",
+        projectId: "cognida-3a5de",
+        storageBucket: "cognida-3a5de.appspot.com",
+        messagingSenderId: "53326986851",
+        appId: "1:53326986851:web:248dfe1819166478e38256",
+        measurementId: "G-GXESJPYBH3"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      </script>
+    <script type="module" src="dragndrop.js"></script>
     <input class="fileName" placeholder="Enter File Name" type="text" />
-    <button class="submitBtn">Submit</button>
-    <script src="dragndrop.js"></script>
+<button class="submitBtn">Submit</button>
   </body>
 </html>
