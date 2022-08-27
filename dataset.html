@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dataset</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link rel="stylesheet" href="./styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./styles.css" />
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
@@ -20,11 +20,23 @@
 
         $(function () {
 
-            var stock = [];
+            // var stock = [];
 
-            $.getJSON('../dataset.json', function (data) {
-                $.each(data.stock, function (i, f) {
-                    var tblRow = "<tr>" + "<td>" + f.date + "</td>" + "<td>" + f.open + "</td>" + "<td>" + f.high + "</td>" + "<td>" + f.low + "</td>" + "<td>" + f.close + "</td>" + "<td>" + f.adjClose + "</td>" + "<td>" + f.volume + "</td>" + "</tr>"
+            $.getJSON('../UserLists.json', function (data) {
+                    var tblHead = ""
+                    for(let j = 0; j < Object.keys(data[0]).length; j++) {
+                        tblHead = tblHead + "<th>" + Object.keys(data[0])[j] + "</th>" 
+                    }
+                    $(tblHead).appendTo("#userdata thead");
+                $.each(data, function (i, f) {
+                    // tblHead = tblHead + "</tr>"
+
+                    var tblRow = "<tr>"
+                    for(let j = 0; j < Object.values(f).length; j++) {
+                        tblRow = tblRow + "<td>" + Object.values(f)[j] + "</td>" 
+                    }
+                    tblRow = tblRow + "</tr>"
+
                     $(tblRow).appendTo("#userdata tbody");
                 });
 
@@ -48,7 +60,7 @@
     </script>
     <!--end of Navigation bar-->
 
-    <a href="#">
+    <a href="./lists.html">
         <img id="back-image" src="https://cdn-icons-png.flaticon.com/128/130/130882.png" alt="">
     </a>
     <div class="selected-dataset">Selected Dataset</div>
@@ -58,13 +70,6 @@
         <div>
             <table id="userdata">
                 <thead>
-                    <th>Date</th>
-                    <th>Open</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Close</th>
-                    <th>AdjClose</th>
-                    <th>Volume</th>
                 </thead>
                 <tbody>
 
