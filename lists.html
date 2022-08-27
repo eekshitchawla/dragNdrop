@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <title>CRUD App</title>
+</head>
+<body>
+<main>
+    <div class="container mt-2 col-6">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Chapter Name" 
+            aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <button id="add_btn" class="btn btn-outline-success" type="button" >Add</span>
+          </div>
+        <ul id="parentlist" class="list-group">
+            <li class="list-group-item d-flex justify-content-between">
+                <h3 class="flex-grow-1">Chapter 1</h3>
+                <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>
+            </li>
+        </ul>
+    </div>
+</main>
+
+<script>
+    let addbtn = document.getElementById("add_btn")
+    addbtn.addEventListener('click', addChapter);
+    let parentLi = document.getElementById('parentlist');
+
+    function addChapter(e){
+        if(parentLi.children[0].className == 'emptyMsg'){
+            parentLi.children[0].remove();
+        }
+        let currentBtn = e.currentTarget;
+        let currentInput = currentBtn.previousElementSibling;
+        let currentChapterName = currentInput.value;
+
+        let newLi = document.createElement('li');
+        newLi.className = "list-group-item d-flex justify-content-between";
+        newLi.innerHTML = `<h3 class="flex-grow-1">${currentChapterName}</h3>
+                <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>`
+
+        parentLi.appendChild(newLi)
+    }
+
+    function removeChapter(currentElement){
+        currentElement.parentElement.remove();
+        if(parentLi.children.length <=0){
+            let newEmptyMsg = document.createElement('h3');
+            newEmptyMsg.classList.add('emptyMsg');
+            newEmptyMsg.textContent="Nothing is here!";
+            parentLi.appendChild(newEmptyMsg);
+        }
+    }
+
+    function editChapter(currentElement){
+        if(currentElement.textContent == 'Done'){
+            currentElement.textContent = "Edit";
+            let currentChapterName = currentElement.previousElementSibling.value;
+            let currHeading = document.createElement('h3');
+            currHeading.className = "flex-grow-1";
+            currHeading.textContent = currChapName;
+            currentElement.parentElement.replaceChild(currHeading, currentElement.previousElementSibling);
+
+        }else{
+            currentElement.textContent = 'Done';
+            let currChapName= currentElement.previousElementSibling.textContent;
+            let currInp = document.createElement('input');
+            currInp.type = 'text';
+            currInp.className = 'form-control';
+            currInp.value = currChapName;
+
+            currentElement.parentElement.replaceChild(currInp, currentElement.previousElementSibling);
+        }
+
+    } 
+
+</script>
+
+</body>
+</html>
