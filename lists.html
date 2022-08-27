@@ -5,26 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
 
-    <title>CRUD App</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .container{
+        text-align: center;
+        position: absolute;
+        max-width:50%;
+        left: 25%;
+        top: 25%;
+    }
+    .editIcon{
+        height: 7vh;
+    }
+    .removeIcon{
+        height: 3.5vh;
+        margin-top: 1.75vh;
+    }
+  </style>
+    <title>List</title>
 </head>
 <body>
-<main>
-    <div class="container mt-2 col-6">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Chapter Name" 
-            aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <button id="add_btn" class="btn btn-outline-success" type="button" >Add</span>
-          </div>
+        <div id="nav-placeholder"></div>
+        <script>
+          $(function () {
+            $("#nav-placeholder").load("../navbar.html");
+          });
+        </script>
+
+    <div class="container">
         <ul id="parentlist" class="list-group">
             <li class="list-group-item d-flex justify-content-between">
-                <h3 class="flex-grow-1">Chapter 1</h3>
-                <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
-                <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>
+                <h3 class="flex-grow-1">Item 1</h3>
+                <img class="editIcon" src="https://t4.ftcdn.net/jpg/01/97/22/97/240_F_197229786_vWEFpeQEOtIcjvtKVRAyPPP91ANs43uq.jpg" onclick="editChapter(this)" alt="">
+                <img class="removeIcon" src="https://cdn-icons-png.flaticon.com/512/2782/2782988.png" alt="" onclick="removeChapter(this)">
             </li>
         </ul>
     </div>
-</main>
+
 
 <script>
     let addbtn = document.getElementById("add_btn")
@@ -42,8 +68,8 @@
         let newLi = document.createElement('li');
         newLi.className = "list-group-item d-flex justify-content-between";
         newLi.innerHTML = `<h3 class="flex-grow-1">${currentChapterName}</h3>
-                <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
-                <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>`
+        <img class="editIcon" src="https://t4.ftcdn.net/jpg/01/97/22/97/240_F_197229786_vWEFpeQEOtIcjvtKVRAyPPP91ANs43uq.jpg" onclick="editChapter(this)" alt="">
+        <img class="removeIcon" src="https://cdn-icons-png.flaticon.com/512/2782/2782988.png" alt="" onclick="removeChapter(this)">`
 
         parentLi.appendChild(newLi)
     }
