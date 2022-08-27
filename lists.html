@@ -64,7 +64,7 @@
             let currentChapterName = currentElement.previousElementSibling.value;
             let currHeading = document.createElement('h3');
             currHeading.className = "flex-grow-1";
-            currHeading.textContent = currChapName;
+            currHeading.textContent = currentChapterName;
             currentElement.parentElement.replaceChild(currHeading, currentElement.previousElementSibling);
 
         }else{
