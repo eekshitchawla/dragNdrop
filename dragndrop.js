@@ -1,3 +1,11 @@
+// Import JSON data
+let temp
+const currentloginid = async () => {
+  const response = await fetch('UserLists.json')
+  const data = await response.json()
+  temp = data
+}
+currentloginid()
 
 //selecting all required elements
 const dropArea = document.querySelector(".drag-area"),
@@ -38,39 +46,61 @@ dropArea.addEventListener("drop", (event)=>{
   file = event.dataTransfer.files[0];
   showFile(); //calling function
 });
+const CSVToJSON = csv => {
+  const lines = csv.split('\n');
+  const keys = lines[0].split(',');
+  return lines.slice(1).map(line => {
+      return line.split(',').reduce((acc, cur, i) => {
+          const toAdd = {};
+          toAdd[keys[i]] = cur;
+          return { ...acc, ...toAdd };
+      }, {});
+  });
+};
 
-function showFile(){
-  let fileType = file.type; //getting selected file type
-  let data = [
-    {
-      "description": "hello",
-      "name": "re"
-    },
-    {
-      "description": "hello",
-      "name": "re"
-    },
-    {
-      "description": "hello",
-      "name": "re"
-    },
-  ]
-  console.log(fileType)
-  let validExtensions = ["text/csv", "application/vnd.ms-excel"]; //adding some valid image extensions in array
-  if(validExtensions.includes(fileType)){ //if user selected file is an image file
-    let fileReader = new FileReader(); //creating new FileReader object
-    fileReader.onload = ()=>{
-      let fileURL = fileReader.result; //passing user file source in fileURL variable
-      let imgTag = `<img src="${fileURL}" alt="">`; //creating an img tag and passing user selected file source inside src attribute
-      let temp = data.map((i) => (
-        `<li>${i.description}</li>
-        <li>${i.name}</li>`
-      ))
-      dropArea.innerHTML = temp; //adding that created img tag inside dropArea container
-    }
-    fileReader.readAsDataURL(file);
-    console.log(file);
-  }else{
+const exampleCSV = `
+      date,positives,fatalities
+      20210307,28756184,515148
+      20210306,28714654,514309
+      20210305,28654639,512629
+      20210304,28585852,510408
+      20210303,28520365,508665
+      20210302,28453529,506216
+      20210301,28399281,504488`;
+      
+      function showFile(){
+        let fileType = file.type;
+        let validExtensions = ["text/csv", "application/vnd.ms-excel"]; 
+        
+        Papa.parse(file, {
+          download: true,
+          header: true,
+          complete: function(res) {
+            var columnName = Object.values(res.data[2])
+            // var jsonCSV = csvJSON(res.data)
+            // console.log(jsonCSV)
+            console.log(CSVToJSON(exampleCSV));
+      }
+    })
+
+    if(validExtensions.includes(fileType)){ 
+      let fileReader = new FileReader() 
+      fileReader.onload = ()=>{
+        let fileURL = fileReader.result
+
+        let data = temp.map(i => 
+          `
+          <p>${i.name}</p>
+          <p>${i.description}</p>
+          `
+          )
+          dropArea.innerHTML = data
+        }
+
+        fileReader.readAsDataURL(file);
+        console.log(file);
+        
+      }else{
     alert("This is not valid file type!");
     dropArea.classList.remove("active");
     dragText.textContent = "Drag & Drop to Upload File";
