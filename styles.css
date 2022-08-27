@@ -84,3 +84,28 @@ li > a {
   color: inherit;
   text-decoration: none;
 }
+
+#back-image {
+  height: 20px;
+  position: absolute;
+  top: 10%;
+  left: 1%;
+}
+
+.selected-dataset {
+  position: absolute;
+  top: 10%;
+  right: 1%;
+}
+
+#userdata {
+  position: absolute;
+  left: 10%;
+  top: 20%;
+  width: 80%;
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid black;
+}
