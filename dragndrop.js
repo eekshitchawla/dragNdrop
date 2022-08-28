@@ -10,7 +10,7 @@
 //   temp = data
 // }
 // currentloginid()
-var fileURL, itemJsonArray = [], itemJsonArrayStr = [], fileType, obj, datasetName, currentTime
+var fileURL, itemJsonArray = [], itemJsonArrayStr = [], fileType, obj, datasetName, currentTime, fileUrl, file1
 
 currentTime = new Date().toLocaleString();
 
@@ -90,6 +90,9 @@ async function showFile (event) {
           fileReader.onload = () => {
             fileURL = fileReader.result
             getAndUpdate()
+            if(fileType === 'text/csv') {
+              file1 = fileURL
+            }
           }
           fileReader.readAsDataURL(file);
         }
@@ -109,7 +112,6 @@ async function showFile (event) {
 
  export function getAndUpdate() {
    console.log(fileURL, datasetName, obj);
-  let file1 
   // For JSON
   if(fileType !== 'text/csv') {
     console.log(obj)
@@ -117,21 +119,14 @@ async function showFile (event) {
   }
   //For CSV
   else {
-    Papa.parse(fileURL, {
-        download: true,
-        header: true,
-        complete: function(res) {
-          file1 = res.data
-        }
-      })
-    // file1 = fileURL
+    file1 = fileURL
   }
 
   console.log(file, file1)
 
   if (localStorage.getItem('itemsJson') == null){
       itemJsonArray = [];
-      itemJsonArray.push({fileType, datasetName, file1, currentTime});
+      itemJsonArray.push({fileType, datasetName, file1 , currentTime});
       localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
   }
   else{
