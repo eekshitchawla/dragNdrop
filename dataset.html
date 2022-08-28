@@ -19,10 +19,16 @@
     <script>
 
         $(function () {
-
+            itemJsonArrayStr = localStorage.getItem('itemsJson')
+            itemJsonArray = JSON.parse(itemJsonArrayStr);
+            // const ind = localStorage.getItem('index')
+            // console.log(ind, typeof ind)
+            // var d = itemJsonArray[ ind - 1].file1
+            // console.log(itemJsonArray)
             // var stock = [];
 
             $.getJSON('../UserLists.json', function (data) {
+                    // data = d
                     var tblHead = ""
                     for(let j = 0; j < Object.keys(data[0]).length; j++) {
                         tblHead = tblHead + "<th>" + Object.keys(data[0])[j] + "</th>" 

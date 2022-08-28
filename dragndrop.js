@@ -1,99 +1,146 @@
 // export const storage = getStorage();
-import {getDatabase, ref, set} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+// import {getDatabase, ref, set} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
 
-const db = getDatabase();
+// const db = getDatabase();
 
-// Import JSON data
-let temp
-const currentloginid = async () => {
-  const response = await fetch('UserLists.json')
-  const data = await response.json()
-  temp = data
-}
-currentloginid()
+// let temp
+// const currentloginid = async () => {
+//   const response = await fetch('UserLists.json')
+//   const data = await response.json()
+//   temp = data
+// }
+// currentloginid()
+var fileURL, itemJsonArray = [], itemJsonArrayStr = [], fileType, obj, datasetName, currentTime
 
-//selecting all required elements
+currentTime = new Date().toLocaleString();
+
 const dropArea = document.querySelector(".drag-area"),
 dragText = dropArea.querySelector("header"),
 button = dropArea.querySelector("button"),
 input = dropArea.querySelector("input");
-let file; //this is a global variable and we'll use it inside multiple functions
+let submitButton = document.getElementById("submitBtn")
+let inputText = document.getElementById('fileName')
+
+let file; 
 
 button.onclick = ()=>{
-  input.click(); //if user click on the button then the input also clicked
+  input.click(); 
 }
 
-input.addEventListener("change", function(){
-  //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+input.addEventListener("change", function(e){
   file = this.files[0];
   dropArea.classList.add("active");
-  showFile(); //calling function
+  dragText.textContent = "File uploaded";
 });
 
-
-//If user Drag File Over DropArea
 dropArea.addEventListener("dragover", (event)=>{
   event.preventDefault(); //preventing from default behaviour
   dropArea.classList.add("active");
   dragText.textContent = "Release to Upload File";
 });
 
-//If user leave dragged File from DropArea
 dropArea.addEventListener("dragleave", ()=>{
   dropArea.classList.remove("active");
   dragText.textContent = "Drag & Drop to Upload File";
 });
 
-function insertData (temp) {
-  console.log(temp)
-  set(ref(db, `${1}`), 
-    temp
-  )    
-  .then(() => alert("data stored"))  
-  .catch((error) => alert(error))
-}
+// --- For firebase ---
+// async function insertData (temp) {
+//   console.log('Hello', file)
+//   set(ref(db, `${1324}`), 
+//       temp
+//   )    
+//   .then(() => alert("data stored"))  
+//   .catch((error) => alert(error))
+// }
 
-//If user drop File on DropArea
 dropArea.addEventListener("drop", (event)=>{
-  event.preventDefault(); //preventing from default behaviour
-  //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+  event.preventDefault(); 
   file = e.target.value;
-  showFile(); //calling function
+  dropArea.innerHTML = "File uploaded"
 });
 
-async function showFile () {
-  let fileType = file.type;
-  let validExtensions = ["text/csv", "application/vnd.ms-excel"]; 
+submitButton.onclick = () => {
+  datasetName = inputText.value
+  showFile()
+}
+
+function onReaderLoad(event){
+  obj = JSON.parse(event.target.result);
+  getAndUpdate()
+}
+
+async function showFile (event) {
+  fileType = file.type;
+  let validExtensions = ["text/csv", "application/json"]; 
     
       // Papa.parse(file, {
       //   download: true,
       //   header: true,
       //   complete: function(res) {
-      //     temp = res.data
+      //     let temp = res.data
+      //     console.log(temp)
       //   }
       // })
-      
 
-    if(validExtensions.includes(fileType)){ 
-      let fileReader = new FileReader() 
-      fileReader.onload = ()=>{
-        let fileURL = fileReader.result
-
-        let data = temp.map(i => 
-          `
-          <p>${i.name}</p>
-          <p>${i.description}</p>
-          `
-          )
-          dropArea.innerHTML = data
+      if(validExtensions.includes(fileType)) { 
+        let fileReader = new FileReader() 
+        // For CSV
+        if(fileType === 'text/csv') {
+          fileReader.onload = () => {
+            fileURL = fileReader.result
+            getAndUpdate()
+          }
+          fileReader.readAsDataURL(file);
         }
-
-        fileReader.readAsDataURL(file);
-        console.log(file);
-        
-      }else{
+        // For JSON
+        else {
+          fileReader.onload = onReaderLoad
+          fileReader.readAsText(file)
+        }
+        inputText.value = " "
+        dragText.textContent = "Drag & Drop to Upload File";
+      } else {
     alert("This is not valid file type!");
     dropArea.classList.remove("active");
     dragText.textContent = "Drag & Drop to Upload File";
   }
+}
+
+ export function getAndUpdate() {
+   console.log(fileURL, datasetName, obj);
+  let file1 
+  // For JSON
+  if(fileType !== 'text/csv') {
+    console.log(obj)
+    file1 = obj;
+  }
+  //For CSV
+  else {
+    Papa.parse(fileURL, {
+        download: true,
+        header: true,
+        complete: function(res) {
+          file1 = res.data
+        }
+      })
+    // file1 = fileURL
+  }
+
+  console.log(file, file1)
+
+  if (localStorage.getItem('itemsJson') == null){
+      itemJsonArray = [];
+      itemJsonArray.push({fileType, datasetName, file1, currentTime});
+      localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+  }
+  else{
+      itemJsonArrayStr = localStorage.getItem('itemsJson')
+      itemJsonArray = JSON.parse(itemJsonArrayStr);
+      itemJsonArray.push({fileType, datasetName, file1, currentTime});
+      localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+  }
+
+  inputText.innerHTML = ""
+  dragText.textContent = "Drag & Drop to Upload File"
 }

@@ -43,8 +43,8 @@
 
     <div class="container">
         <ul id="parentlist" class="list-group">
-            <li class="list-group-item d-flex justify-content-between">
-                <h3 class="flex-grow-1">Item 1</h3>
+            <li class="list-group-item d-flex justify-content-between" id="dataset-list">
+                <h5 class="flex-grow-1">Item 1</h5  >
                 <img class="editIcon" src="https://t4.ftcdn.net/jpg/01/97/22/97/240_F_197229786_vWEFpeQEOtIcjvtKVRAyPPP91ANs43uq.jpg" onclick="editChapter(this)" alt="">
                 <img class="removeIcon" src="https://cdn-icons-png.flaticon.com/512/2782/2782988.png" alt="" onclick="removeChapter(this)">
             </li>
@@ -53,8 +53,8 @@
 
 
 <script>
-    let addbtn = document.getElementById("add_btn")
-    addbtn.addEventListener('click', addChapter);
+    // let addbtn = document.getElementById("add_btn")
+    // addbtn.addEventListener('click', addChapter);
     let parentLi = document.getElementById('parentlist');
 
     function addChapter(e){
@@ -67,7 +67,7 @@
 
         let newLi = document.createElement('li');
         newLi.className = "list-group-item d-flex justify-content-between";
-        newLi.innerHTML = `<h3 class="flex-grow-1">${currentChapterName}</h3>
+        newLi.innerHTML = `<h5 class="flex-grow-1">${currentChapterName}</h5>
         <img class="editIcon" src="https://t4.ftcdn.net/jpg/01/97/22/97/240_F_197229786_vWEFpeQEOtIcjvtKVRAyPPP91ANs43uq.jpg" onclick="editChapter(this)" alt="">
         <img class="removeIcon" src="https://cdn-icons-png.flaticon.com/512/2782/2782988.png" alt="" onclick="removeChapter(this)">`
 
@@ -88,7 +88,7 @@
         if(currentElement.textContent == 'Done'){
             currentElement.textContent = "Edit";
             let currentChapterName = currentElement.previousElementSibling.value;
-            let currHeading = document.createElement('h3');
+            let currHeading = document.createElement('h5');
             currHeading.className = "flex-grow-1";
             currHeading.textContent = currentChapterName;
             currentElement.parentElement.replaceChild(currHeading, currentElement.previousElementSibling);
@@ -107,6 +107,8 @@
     } 
 
 </script>
+
+<script type="module" src="lists.js"></script>
 
 </body>
 </html>
