@@ -5,13 +5,13 @@
     width: 60px;
     height: 34px;
   }
-  
-  .switch input { 
+
+  .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -23,7 +23,7 @@
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   .slider:before {
     position: absolute;
     content: "";
@@ -36,12 +36,12 @@
     transition: .4s;
   }
 
-  
-  input:checked + .slider {
+
+  input:checked+.slider {
     background-color: black;
   }
-  
-  input:checked + .slider:before {
+
+  input:checked+.slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
@@ -51,38 +51,52 @@
   .slider.round {
     border-radius: 34px;
   }
-  
+
   .slider.round:before {
     border-radius: 50%;
   }
-  #logo{
+
+  #logo {
     height: 5vh;
   }
-  </style>
-  
+</style>
+
+<script>
+  $(function () {
+    var email = JSON.parse(localStorage.getItem('email'));
+    var date = JSON.parse(localStorage.getItem('date'));
+    var time = document.getElementById('loginTime');
+    time.innerHTML = date;
+    var mail = document.getElementById('username');
+    mail.innerHTML = email;
+  });
+</script>
+
 <nav class="">
-    <ul class="">
-      <li class="">
-        <a class="" aria-current="page" href="#">
-          <img id="logo" src="https://cognida.ai/images/cognida_logo_white.png" alt="">
-        </a>
-      </li>
-      <li class="">
-        <a class="" href="./dragNdrop.html">Upload</a>
-      </li>
-      <li class="">
-        <a class="" href="lists.html">List</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Profile
-        </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Username</a></li>
-          <li><a class="dropdown-item" href="#">Log-in Time</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="./index.html">Log-out</a></li>
-        </ul>
-      </li>
-    </ul>
+  <ul class="">
+    <li class="">
+      <a class="" aria-current="page" href="#">
+        <img id="logo" src="https://cognida.ai/images/cognida_logo_white.png" alt="">
+      </a>
+    </li>
+    <li class="">
+      <a class="" href="./dragNdrop.html">Upload</a>
+    </li>
+    <li class="">
+      <a class="" href="lists.html">List</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Profile
+      </a>
+      <ul class="dropdown-menu">
+        <li id="username" class="dropdown-item">UserName</li>
+        <li><a id="loginTime" class="dropdown-item" href="#">Log-in Time</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="./index.html">Log-out</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
